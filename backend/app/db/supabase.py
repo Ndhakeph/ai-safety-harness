@@ -1,46 +1,23 @@
-"""Supabase client configuration and initialization."""
-
-import os
-from typing import Optional
 from supabase import create_client, Client
 from dotenv import load_dotenv
+import os
 
 load_dotenv()
 
+url: str = os.getenv("SUPABASE_URL", "")
+key: str = os.getenv("SUPABASE_KEY", "")
 
-class SupabaseClient:
-    """Singleton Supabase client manager."""
+supabase: Client = create_client(url, key)
 
-    _instance: Optional[Client] = None
-
-    @classmethod
-    def get_client(cls) -> Client:
-        """Get or create Supabase client instance.
-
-        Returns:
-            Supabase client instance
-
-        Raises:
-            ValueError: If required environment variables are missing
-        """
-        if cls._instance is None:
-            supabase_url = os.getenv("SUPABASE_URL")
-            supabase_key = os.getenv("SUPABASE_KEY")
-
-            if not supabase_url or not supabase_key:
-                raise ValueError(
-                    "SUPABASE_URL and SUPABASE_KEY must be set in environment variables"
-                )
-
-            cls._instance = create_client(supabase_url, supabase_key)
-
-        return cls._instance
-
+def get_supabase() -> Client:
+    return supabase
 
 def get_db() -> Client:
-    """Dependency function to get Supabase client.
+    return supabase
 
-    Returns:
-        Supabase client instance
-    """
-    return SupabaseClient.get_client()
+class SupabaseClient:
+    def __init__(self):
+        self.client = supabase
+    
+    def get_client(self) -> Client:
+        return self.client

@@ -1,7 +1,7 @@
 """Guardrail detection service for identifying jailbreaks and harmful content."""
 
 import re
-from typing import List, Tuple
+from typing import List
 from ..models.schemas import GuardrailResult
 
 

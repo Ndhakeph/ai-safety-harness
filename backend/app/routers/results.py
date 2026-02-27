@@ -11,7 +11,6 @@ from ..models.schemas import (
     SafetyMetrics,
     SafetyScoreTimeSeries,
     CategoryBreakdown,
-    Incident,
 )
 from ..db import get_db
 

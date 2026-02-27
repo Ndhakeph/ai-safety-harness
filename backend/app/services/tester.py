@@ -3,7 +3,6 @@
 import os
 import logging
 from typing import Optional
-from uuid import UUID
 
 import google.generativeai as genai
 from dotenv import load_dotenv

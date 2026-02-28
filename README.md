@@ -32,10 +32,10 @@ I got interested in AI safety after reading about jailbreak techniques that coul
 └───────────┼──────────────────────────────────────────────┘
             │
 ┌───────────▼──────────────────────────────────────────┐
-│              PostgreSQL Database                      │
+│           Supabase (PostgreSQL + REST API)           │
 │  • adversarial_prompts (test library)                │
 │  • test_runs (execution results)                     │
-│  • guardrail_results (detection details)             │
+│  • incidents (security breach tracking)              │
 └──────────────────────────────────────────────────────┘
 ```
 
@@ -51,7 +51,7 @@ After the model responds, a **refusal verification** layer checks whether it act
 
 ## Tech Stack
 
-**Backend:** Python 3.11, FastAPI, PostgreSQL, Pydantic
+**Backend:** Python 3.11, FastAPI, Supabase, Pydantic
 
 **Frontend:** Next.js 14, TypeScript, Tailwind CSS, shadcn/ui, Recharts
 
@@ -62,33 +62,38 @@ After the model responds, a **refusal verification** layer checks whether it act
 ### Prerequisites
 - Python 3.11+
 - Node.js 18+
-- PostgreSQL 16+
+- Supabase account (free tier works)
 - Google Gemini API key (free tier works)
 
 ### Setup
 
 ```bash
-# Clone and set up database
 git clone https://github.com/tacitusblindsbig/ai-safety-harness
 cd ai-safety-harness
-psql postgres -c "CREATE DATABASE ai_safety_harness;"
-psql ai_safety_harness < database/schema.sql
-psql ai_safety_harness < database/seed_data.sql
+```
 
-# Backend
+**Database (Supabase):**
+1. Create a project at [supabase.com](https://supabase.com)
+2. Go to SQL Editor and run `database/schema.sql`
+3. Run `database/seed_data.sql` to populate test prompts
+4. Copy your project URL and anon key from Settings → API
+
+**Backend:**
+```bash
 cd backend
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
-# Add your GOOGLE_API_KEY and DATABASE_URL to .env
+# Add GOOGLE_API_KEY, SUPABASE_URL, and SUPABASE_KEY to .env
 python run.py  # runs on localhost:8000
+```
 
-# Frontend (new terminal)
+**Frontend (new terminal):**
+```bash
 cd frontend
 npm install
 cp .env.local.example .env.local
-# Set NEXT_PUBLIC_API_URL=http://localhost:8000
 npm run dev  # runs on localhost:3000
 ```
 

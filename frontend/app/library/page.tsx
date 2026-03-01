@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { api, AdversarialPrompt } from '@/lib/api';
 import AdversarialPromptForm from '@/components/AdversarialPromptForm';
 import { getCategoryLabel, getSeverityColor, truncateText } from '@/lib/utils';
@@ -12,11 +12,7 @@ export default function LibraryPage() {
   const [editingPrompt, setEditingPrompt] = useState<AdversarialPrompt | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadPrompts();
-  }, [filteredCategory]);
-
-  const loadPrompts = async () => {
+  const loadPrompts = useCallback(async () => {
     try {
       setLoading(true);
       const params = filteredCategory !== 'all' ? { category: filteredCategory } : {};
@@ -27,7 +23,11 @@ export default function LibraryPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filteredCategory]);
+
+  useEffect(() => {
+    loadPrompts();
+  }, [loadPrompts]);
 
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this prompt?')) {

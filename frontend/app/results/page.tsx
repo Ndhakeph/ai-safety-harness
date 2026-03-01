@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { api, TestRunResponse } from '@/lib/api';
 import TestResultCard from '@/components/TestResultCard';
 
@@ -13,11 +13,7 @@ export default function ResultsPage() {
     max_safety_score: undefined as number | undefined,
   });
 
-  useEffect(() => {
-    loadResults();
-  }, []);
-
-  const loadResults = async () => {
+  const loadResults = useCallback(async () => {
     try {
       setLoading(true);
       const params: any = { limit: 50 };
@@ -39,7 +35,11 @@ export default function ResultsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters]);
+
+  useEffect(() => {
+    loadResults();
+  }, [loadResults]);
 
   const handleApplyFilters = () => {
     loadResults();

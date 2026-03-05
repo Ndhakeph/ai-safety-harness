@@ -1,5 +1,9 @@
 # AI Safety Testing Harness
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+
+![Demo](docs/demo.png)
+
 A red-team testing platform for evaluating LLM safety mechanisms. Run adversarial prompts against AI models and measure which guardrails catch them.
 
 ## Why I Built This
@@ -61,7 +65,7 @@ The test flow works in stages:
 4. **Scoring**: Safety score calculated from weighted components (pre: 30%, post: 40%, jailbreak prevention: 30%)
 5. **Incident creation**: If jailbreak succeeds or safety score is low, an incident is logged
 
-## Key Technical Decisions
+## 🔧 Key Technical Decisions
 
 - **Regex-based detection over embeddings**: Regex gives ~95% detection on known jailbreak patterns with <10ms latency per layer. Semantic similarity would catch novel attacks better, but adds 100ms+ per check. For a testing harness where you're running hundreds of tests, speed matters more than catching zero-days—you can add new patterns as attacks evolve.
 
@@ -69,7 +73,7 @@ The test flow works in stages:
 
 - **Test suites organized by attack category**: The seed data has 5 categories (jailbreak, injection, harmful, manipulation, encoding) with varying severity levels. This lets you run targeted tests ("how well do we catch encoding tricks?") and measure false positive rates by including benign prompts that shouldn't be blocked.
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 **Backend**
 - Python 3.11
@@ -85,7 +89,7 @@ The test flow works in stages:
 - shadcn/ui components
 - Recharts (metrics visualization)
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 

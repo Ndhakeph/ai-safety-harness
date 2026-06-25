@@ -67,7 +67,7 @@ The test flow works in stages:
 
 ## 🔧 Key Technical Decisions
 
-- **Regex-based detection over embeddings**: Regex gives ~95% detection on known jailbreak patterns with <10ms latency per layer. Semantic similarity would catch novel attacks better, but adds 100ms+ per check. For a testing harness where you're running hundreds of tests, speed matters more than catching zero-days—you can add new patterns as attacks evolve.
+- **Regex-based detection over embeddings**: Regex reliably catches *known* jailbreak patterns at very low latency per layer, with no model call in the hot path. Semantic similarity would catch novel attacks better, but adds a model round-trip per check. For a harness running hundreds of tests, that speed matters more than catching zero-days—you add new patterns as attacks evolve. Detection rate is reported per run from the test suite rather than as a single headline accuracy number, since it depends entirely on which patterns are in your seed set.
 
 - **Pre AND post guardrail checks**: Early versions only validated input. But a model can pass input guardrails and still produce harmful output if it misinterprets the prompt or if the attack is subtle. The post-check looks for refusal indicators ("I cannot help with that") and flags responses that appear to comply with harmful requests.
 
